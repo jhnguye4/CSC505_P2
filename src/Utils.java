@@ -10,7 +10,6 @@ public class Utils{
 	private ListNode head = null;
     private ListNode tail = null;
 
-    
     public ListNode getHead(){
         if(head == null){
             throw new IllegalArgumentException("List is empty");
