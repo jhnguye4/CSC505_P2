@@ -10,25 +10,80 @@ public class Utils{
 	private ListNode head = null;
     private ListNode tail = null;
 
+    //Returns the data at the head
+    public int peek(){
+        if(head == null){
+            throw new IllegalArgumentException("List is empty");
+        }
+        return head.data;
+    }
+
+    //Removes the top element and returns the node that was removed
+    public ListNode pop(){
+        if(head == null){
+            throw new IllegalArgumentException("List is empty");
+        }
+        ListNode temp = head;
+        head = head.next;
+        return temp;
+    }
+
+    public void push(int data, int weight){
+        ListNode currentNode = head; 
+        ListNode newNode = new ListNode(data, weight);
+
+        if(head == null){
+            head = newNode;
+            return;
+        }
+
+        //If the head node has a lower priority than the new node, then the new node will then be placed before
+        //the current head. Remember that the lower the value for weight means that it has a higher priority
+        if(head.weight > weight){
+            newNode.next = head;
+            head = newNode;
+        } else{
+            //Traverse list till the newNode weight value is greater than a weight value in the list.
+            while((currentNode.next != null) && (currentNode.next.weight < weight)){
+                currentNode = currentNode.next;
+            }
+
+            newNode.next = currentNode.next;
+            currentNode.next = newNode;
+        }
+    }
+    public ListNode get(int index){
+        ListNode currentNode = head;
+        if(head == null){
+            throw new IllegalArgumentException("List is empty");
+        }
+        for(int i = 0; i < index; i++){
+            currentNode = currentNode.next;
+        }
+        return currentNode;
+    }
+
     public ListNode getHead(){
         if(head == null){
             throw new IllegalArgumentException("List is empty");
         }
         return head;
     }
+
     public ListNode getTail(){
         if(tail == null){
             throw new IllegalArgumentException("List is empty");
         }
         return tail;
     }
+
     public int getSize(){
         return size;
     }
 
     // Adds a number to the front of the list
-    public void addFront(int num) {
-        ListNode newNode = new ListNode<Integer>(num);
+    public void addFront(int data, int weight) {
+        ListNode newNode = new ListNode(data,weight);
         if (head == null) {
             head = newNode;
             tail = newNode;
@@ -40,8 +95,8 @@ public class Utils{
         size++;
     }
     // Adds a number to the front of the list
-    public void addEnd(int num) {
-        ListNode newNode = new ListNode<Integer>(num);
+    public void addEnd(int data, int weight) {
+        ListNode newNode = new ListNode(data,weight);
         ListNode currentNode = head;
         if (head == null) {
             head = newNode;
@@ -74,17 +129,18 @@ public class Utils{
         size--;      
     }
 
+
     // Helper function that would print out the list
-    public void printList(ListNode begin) {
-        ListNode currentNode = begin;
+    public void printList() {
+        ListNode currentNode = head;
 
         while (currentNode != null) {
             // Print the data at current node
-            System.out.print(currentNode.data + " ");
+            System.out.print("Node: "+currentNode.data + " Weight: " + currentNode.weight);
+            System.out.println(" Found: "+currentNode.found);
             // Go to next node
             currentNode = currentNode.next;
         }
-        System.out.println();
 
     }
     

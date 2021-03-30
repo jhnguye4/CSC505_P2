@@ -4,35 +4,29 @@
 	 * @author jhnguye4
 	 *
 	 */
-	public class ListNode<E> {
+	public class ListNode {
 		/** public field that holds the data of the linked list */
-		public E data;
-		/** public field for the next ListNode */
+		public int data;
+		/** public field for the weight ListNode */
+		public int weight;
+		/** public field for the right ListNode */
 		public ListNode next;
-		/** public field for the prev ListNode */
 		public ListNode prev;
-
-		/**
-		 * Constructor method that takes in one parameter that creates a node with
-		 * information but the previous and next links are null
-		 * 
-		 * @param data the data that the new node will hold
-		 */
-		public ListNode(E data) {
-			this(data, null, null);
-		}
+		public boolean found;
 
 		/**
 		 * Constructor method that takes in three parameters to create a node and link
 		 * it to the previous link and the next linke
 		 * 
 		 * @param data the data that the new node will hold
-		 * @param prev points to the previous link
-		 * @param next points to the next link
+		 * @param priority the priority of the node where lower values indicate higher priority
+		 * @param next the node that is next to the current node
 		 */
-		public ListNode(E data, ListNode prev, ListNode next) {
+		public ListNode(int data, int weight) {
 			this.data = data;
-			this.prev = prev;
-			this.next = next;
+			this.weight = weight;
+			this.next = null;
+			this.prev = null;
+			this.found = false;
 		}
 	}
