@@ -1,64 +1,42 @@
 import java.util.*;
+import java.io.*;
+
 public class Dijkstras {
-    Utils dijkstraList = new Utils();
     Utils distanceList;
+    int n=0;
+    ArrayList<Utils> adjacencyList;
+
     public Dijkstras(){
+
+        Scanner console = new Scanner(System.in);
+        System.out.print("Enter a filename or Q to quit: ");
+        String filename = console.next().toLowerCase();
+
+        Scanner input = null;
+        PrintStream output = null;
+        while (!(filename.equals("q"))) {
+            if (filename.endsWith(".gph")) {
+                input = getInputScanner(filename);
+                if (input != null) {
+                    output = getOutputPrintStream(console, filename);
+                    if (output != null) {
+                        process(input);
+                        distanceList = initializeDistance(n);
+                        updateDistance(distanceList);
+                        distanceList.printList();
+                    }
+                }
+            } else {
+                System.out.println("Invalid filename");
+            }
+            System.out.print("Enter a filename or Q to quit: ");
+            filename = console.next().toLowerCase();
+        }
         
-        int n=8;
-        ArrayList<Utils> adjacencyList = new ArrayList<Utils>(n);
-
-        Utils list1 = new Utils();
-        list1.addFront(2,4);
-        list1.addFront(7,6);
-        list1.addFront(3,10);
-
-        Utils list2 = new Utils();
-        list2.addFront(4,10);
-        list2.addFront(8,6);
-
-        Utils list3 = new Utils();
-        list3.addFront(7,2);
-        list3.addFront(5,7);
-
-        Utils list4 = new Utils();
-        list4.addFront(5,9);
-        list4.addFront(6,6);
-
-        Utils list5 = new Utils();
-        list5.addFront(6,1);
-
-        Utils list6 = new Utils();
-        list6.addFront(7,6);
-
-        Utils list7 = new Utils();
-        list7.addFront(8,4);
-        
-        adjacencyList.add(list1);
-        adjacencyList.add(list2);
-        adjacencyList.add(list3);
-        adjacencyList.add(list4);
-        adjacencyList.add(list5);
-        adjacencyList.add(list6);
-        adjacencyList.add(list7);
-
-
-        // for(int i = 0; i < adjacencyList.size(); i++){
-        //     list = adjacencyList.get(i);
-        //     System.out.println("Vertice Start: " + (i+1) + " ");
-        //     list.printList();
-        // }
-
-        distanceList = initializeDistance(n);
-        distanceList.get(2).weight = 4;
-        getMinimum();
-        distanceList.printList();
-        System.out.println();
-        distanceList.get(3).weight = 6;
-        getMinimum();
-        distanceList.printList();
-        System.out.println();
-        dijkstraList.printList();
-        // distanceList.printList();
+        for(int i =0; i<n; i++){
+            System.out.println("Source: " + (i));
+            adjacencyList.get(i).printList();
+        }
         
     }
     public static void main(String[] args) {
@@ -74,7 +52,7 @@ public class Dijkstras {
         return list;
     }
 
-    public void getMinimum(){
+    public int getMinimum(){
         ListNode currentNode = distanceList.getHead();
         int minimum = Integer.MAX_VALUE;
         ListNode node=null;
@@ -88,11 +66,104 @@ public class Dijkstras {
         
         if(minimum != Integer.MAX_VALUE){
             node.found = true;
-            dijkstraList.addEnd(node.data,minimum);
         }
+
+        return minimum;
     }
 
     public void decreaseKey(ListNode node, int distance){
         node.weight = distance;
     }
+
+    public void updateDistance(Utils distanceList){
+        int minimum = 0;
+        for(int i = 0; i < adjacencyList.size(); i++){
+            if (adjacencyList.get(i).getSize() < 1){
+                continue;
+            }
+            ListNode currentNode = adjacencyList.get(i).getHead();
+            while (currentNode != null){
+                ListNode node = distanceList.get(currentNode.target-1);
+                if (!node.found){
+                    if (node.weight == Integer.MAX_VALUE){
+                        node.weight = currentNode.weight;
+                    }
+                    else {
+                        //distanceList.get(currentNode.weight);
+                        System.out.println("node.weight: " + node.weight);
+                        System.out.println("minimum+currentNode.weight: " + (minimum+currentNode.weight));
+                        node.weight = Math.min(node.weight, minimum + currentNode.weight);
+                    }
+                }
+                currentNode = currentNode.next;
+            }
+            minimum = getMinimum();
+            distanceList.printList();
+            System.out.println();
+        }
+    }
+
+    public Scanner getInputScanner(String filename) {
+        Scanner fileScanner = null;
+        try {
+            fileScanner = new Scanner(new File(filename));
+        } catch (FileNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        return fileScanner;
+    }
+
+    public PrintStream getOutputPrintStream(Scanner console, String filename) {
+        PrintStream output = null;
+        if (filename.endsWith(".gph")) {
+            filename = filename.substring(0, filename.length() - 4);
+            filename = filename + ".out";
+
+        }
+        File file = new File(filename);
+        try {
+            if (!file.exists()) {
+                output = new PrintStream(file);
+            } else {
+                System.out.print(filename + " exists - OK to overwrite(y,n)?: ");
+                String reply = console.next().toLowerCase();
+                if (reply.startsWith("y")) {
+                    output = new PrintStream(file);
+                }
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File unable to be written " + e);
+        }
+        return output;
+    }
+
+    public void process(Scanner input) {
+        int source = 0;
+        int target= 0;
+        int weight = 0;
+        
+        while (input.hasNextLine()) {
+            String line = input.nextLine();
+            Scanner lineScan = new Scanner(line);
+            String text = lineScan.next(); 
+            if (text.equals("g")) {   
+                n = lineScan.nextInt();
+                adjacencyList = new ArrayList<Utils>(n);
+                for(int i = 0; i<n; i++){
+                    Utils list = new Utils();
+                    adjacencyList.add(list);
+                }
+            }
+            if (text.equals("e")) {
+                source = lineScan.nextInt();
+                target = lineScan.nextInt();
+                weight = lineScan.nextInt();
+                adjacencyList.get(source-1).addFront(target,weight);
+            }
+            lineScan.close();
+        }
+
+    }
+
 }
+

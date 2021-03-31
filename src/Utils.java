@@ -15,7 +15,7 @@ public class Utils{
         if(head == null){
             throw new IllegalArgumentException("List is empty");
         }
-        return head.data;
+        return head.target;
     }
 
     //Removes the top element and returns the node that was removed
@@ -28,9 +28,9 @@ public class Utils{
         return temp;
     }
 
-    public void push(int data, int weight){
+    public void push(int target, int weight){
         ListNode currentNode = head; 
-        ListNode newNode = new ListNode(data, weight);
+        ListNode newNode = new ListNode(target, weight);
 
         if(head == null){
             head = newNode;
@@ -82,8 +82,8 @@ public class Utils{
     }
 
     // Adds a number to the front of the list
-    public void addFront(int data, int weight) {
-        ListNode newNode = new ListNode(data,weight);
+    public void addFront(int target, int weight) {
+        ListNode newNode = new ListNode(target,weight);
         if (head == null) {
             head = newNode;
             tail = newNode;
@@ -95,8 +95,8 @@ public class Utils{
         size++;
     }
     // Adds a number to the front of the list
-    public void addEnd(int data, int weight) {
-        ListNode newNode = new ListNode(data,weight);
+    public void addEnd(int target, int weight) {
+        ListNode newNode = new ListNode(target,weight);
         ListNode currentNode = head;
         if (head == null) {
             head = newNode;
@@ -136,7 +136,7 @@ public class Utils{
 
         while (currentNode != null) {
             // Print the data at current node
-            System.out.print("Node: "+currentNode.data + " Weight: " + currentNode.weight);
+            System.out.print("Node: "+currentNode.target + " Weight: " + currentNode.weight);
             System.out.println(" Found: "+currentNode.found);
             // Go to next node
             currentNode = currentNode.next;
