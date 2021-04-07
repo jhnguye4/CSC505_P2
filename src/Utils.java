@@ -132,23 +132,27 @@ public class Utils{
         return output;
     }
 
-    public void process(Scanner input) {
+    public ArrayList<MyList> process(Scanner input) {
         int source = 0;
         int target= 0;
         int weight = 0;
+        
+        ArrayList<MyList> adjacencyList = null;
         
         while (input.hasNextLine()) {
             String line = input.nextLine();
             Scanner lineScan = new Scanner(line);
             String text = lineScan.next(); 
+            
             if (text.equals("g")) {   
-                n = lineScan.nextInt();
+                int n = lineScan.nextInt();
                 adjacencyList = new ArrayList<MyList>(n);
                 for(int i = 0; i<n; i++){
                     MyList list = new MyList();
                     adjacencyList.add(list);
                 }
             }
+            
             if (text.equals("e")) {
                 source = lineScan.nextInt();
                 target = lineScan.nextInt();
@@ -156,7 +160,10 @@ public class Utils{
                 adjacencyList.get(source-1).addFront(target,weight);
             }
             lineScan.close();
+        
         }
+        
+        return adjacencyList;
 
     }
 
