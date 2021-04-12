@@ -22,8 +22,8 @@ public class Dijkstras {
                 if (input != null) {
                     output = helper.getOutputPrintStream(console, filename);
                     if (output != null) {
-                        helper.process(input);
-                        distanceList = initializeDistance(n);
+                        adjacencyList = helper.process(input);
+                        distanceList = initializeDistance(adjacencyList.size());
                         updateDistance(distanceList,0);
                         helper.printList(distanceList.getHead());
                         System.out.println();
