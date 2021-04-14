@@ -1,4 +1,6 @@
-
+/**
+ * Linked list class
+ */
 public class MyList {
     
       /**
@@ -10,49 +12,10 @@ public class MyList {
 	private ListNode head = null;
     private ListNode tail = null;
 
-    //Returns the data at the head
-    public int peek(){
-        if(head == null){
-            throw new IllegalArgumentException("List is empty");
-        }
-        return head.target;
-    }
-
-    //Removes the top element and returns the node that was removed
-    public ListNode pop(){
-        if(head == null){
-            throw new IllegalArgumentException("List is empty");
-        }
-        ListNode temp = head;
-        head = head.next;
-        return temp;
-    }
-
-    public void push(int target, int weight){
-        ListNode currentNode = head; 
-        ListNode newNode = new ListNode(target, weight);
-
-        if(head == null){
-            head = newNode;
-            return;
-        }
-
-        //If the head node has a lower priority than the new node, then the new node will then be placed before
-        //the current head. Remember that the lower the value for weight means that it has a higher priority
-        if(head.weight > weight){
-            newNode.next = head;
-            head = newNode;
-        } else{
-            //Traverse list till the newNode weight value is greater than a weight value in the list.
-            while((currentNode.next != null) && (currentNode.next.weight < weight)){
-                currentNode = currentNode.next;
-            }
-
-            newNode.next = currentNode.next;
-            currentNode.next = newNode;
-        }
-    }
-
+    /**
+     * Method that gets the head of the linked list
+     * @return ListNode
+     */
     public ListNode getHead(){
         if(head == null){
             return null;
@@ -60,10 +23,18 @@ public class MyList {
         return head;
     }
 
+    /**
+     * Method is used to manipulate and change the head of the linked list
+     * @param node
+     */
     public void setHead(ListNode node){
         head = node;
     }
 
+    /**
+     * Method returns the tail of the linked list
+     * @return
+     */
     public ListNode getTail(){
         if(tail == null){
             throw new IllegalArgumentException("List is empty");
@@ -88,7 +59,7 @@ public class MyList {
         }
         size++;
     }
-    // Adds a number to the front of the list
+    // Adds a number to the end of the list
     public void addEnd(int target, int weight) {
         ListNode newNode = new ListNode(target,weight);
         ListNode currentNode = head;
@@ -107,6 +78,10 @@ public class MyList {
         size++;
     }
 
+    /**
+     * Removes a node from the list
+     * @param node
+     */
     public void remove(ListNode node){
         if(node == head && head.next != null){
             head = head.next;
@@ -123,6 +98,11 @@ public class MyList {
         size--;      
     }
     
+    /**
+     * Method that will search for a node in this list that has the same target number
+     * @param id
+     * @return
+     */
     public ListNode search(int id) {
     	if(size == 0)
     		return null;

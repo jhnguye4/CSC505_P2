@@ -1,38 +1,38 @@
 import java.util.*;
 import java.io.*;
 public class Utils{
-
+    /**
+     * Helper method that is used in updateDistance that gets the node in distance list that matches the adjacency node
+     * @param list
+     * @param node
+     * @return
+     */
     public ListNode get(ListNode list, ListNode node){
-
+        //node of the distance list
         ListNode currentNode = list;
         if(currentNode == null ){
             return null;
         }
-
+        //iterate through the distance list till finds same node as adjacency node
         while (currentNode != null){
             if (currentNode.target == node.target){
                 break;
             }
             currentNode = currentNode.next;
         }
+        //returns node of the distance list
         return currentNode;
     }
 
+    /**
+     * Merge function that merges all the weights of the nodes in sorted order
+     * @param list1
+     * @param list2
+     * @return 
+     */
     public ListNode merge(ListNode list1, ListNode list2) {
         ListNode dummy = new ListNode(0,0);
         ListNode tmpList = dummy;
-        //int l1 = 0;
-        //int l2 = 0;
-        // Loop is used to point tmpList to the smallest element between the two lists
-        // until one of the lists have reached its end
-        //if (s.equals("w")){
-          //  l1 = list1.weight;
-           // l2 = list2.weight;
-        //}
-        //else if (s.equals("i")){
-          //  l1 = list1.target;
-            //l2 = list2.target;
-        //}
 
         while (list1 != null && list2 != null) {
             // Value in list1 is smaller than value of list two. tmpList points to value in
@@ -61,22 +61,15 @@ public class Utils{
         return dummy.next;
 
     }
-
+    /**
+     * Merge function that is used in Dijkstras() to sort distance list by node order.
+     * @param list1
+     * @param list2
+     * @return
+     */
     public ListNode merge_target(ListNode list1, ListNode list2) {
         ListNode dummy = new ListNode(0,0);
         ListNode tmpList = dummy;
-        //int l1 = 0;
-        //int l2 = 0;
-        // Loop is used to point tmpList to the smallest element between the two lists
-        // until one of the lists have reached its end
-        //if (s.equals("w")){
-          //  l1 = list1.weight;
-           // l2 = list2.weight;
-        //}
-        //else if (s.equals("i")){
-          //  l1 = list1.target;
-            //l2 = list2.target;
-        //}
 
         while (list1 != null && list2 != null) {
             // Value in list1 is smaller than value of list two. tmpList points to value in
@@ -105,7 +98,11 @@ public class Utils{
         return dummy.next;
 
     }
-
+    /**
+     * helper method that is used in both sort function that is used to find middle of list to split
+     * @param head
+     * @return
+     */
     private ListNode middle(ListNode head) {
         ListNode slow = head, fast = head.next;
 
@@ -116,9 +113,9 @@ public class Utils{
         return slow;
     }
 
-    // Main function that will be called recursively to half our lists till lists
+    // Method that will be called recursively to half our lists till lists
     // are one element. After halving, it will merge elements back together in
-    // sorted order.
+    // sorted order. This sort function is used to sort the weight of the nodes.
     public ListNode sort(ListNode head) {
         // Checks if the node is null or there is no elements next to the single element
         // in the list
@@ -137,7 +134,9 @@ public class Utils{
 
         return merge(list1, list2);
     } 
-
+    // Method that will be called recursively to half our lists till lists
+    // are one element. After halving, it will merge elements back together in
+    // sorted order. This sort function is used to sort the target of the nodes.
     public ListNode sort_target(ListNode head) {
         // Checks if the node is null or there is no elements next to the single element
         // in the list
@@ -151,14 +150,14 @@ public class Utils{
         // Sets node next to middle null so that when it recursively calls it will break
         // list into halves till there is one element
         mid.next = null;
-        ListNode list1 = sort(head);
-        ListNode list2 = sort(middleHead);
+        ListNode list1 = sort_target(head);
+        ListNode list2 = sort_target(middleHead);
 
         return merge_target(list1, list2);
     } 
 
 
-    // Helper function that would print out the list
+    // Helper function that would print out the list, used for test purposes
     public void printList(ListNode node) {
         ListNode currentNode = node;
 
@@ -171,7 +170,12 @@ public class Utils{
         }
 
     }
-
+    /**
+     * Method takes in a PrintStream and head node of the distance list and prints all 
+     * values of the distance list into the output file.
+     * @param file
+     * @param node
+     */
     public void printOutput(PrintStream file, ListNode node){
         ListNode currentNode = node;
 
@@ -181,10 +185,13 @@ public class Utils{
             // Go to next node
             currentNode = currentNode.next;
         }
-        file.println(-1);
-
     }
 
+    /**
+     * Method is used to scan through input file
+     * @param filename
+     * @return
+     */
     public Scanner getInputScanner(String filename) {
         Scanner fileScanner = null;
         try {
@@ -195,14 +202,21 @@ public class Utils{
         return fileScanner;
     }
 
+    /**
+     * Method manipulates the input file name and creates a PrintStream to allow user to print to output file.
+     * @param console
+     * @param filename
+     * @return
+     */
     public PrintStream getOutputPrintStream(Scanner console, String filename) {
         PrintStream output = null;
         if (filename.endsWith(".gph")) {
             filename = filename.substring(0, filename.length() - 4);
-            filename = filename + ".out";
+            filename = filename + "2.out";
 
         }
         File file = new File(filename);
+        //Use to check if user wants to overwrite a file that already exists
         try {
             if (!file.exists()) {
                 output = new PrintStream(file);
@@ -219,6 +233,13 @@ public class Utils{
         return output;
     }
 
+    /**
+     * Method takes input scanner and iterates through each line of the file.
+     * This method is used to create the adjacency list which will be an ArrayList
+     * of linked list. With the linked list being a class we created called MyList.
+     * @param input
+     * @return
+     */
     public ArrayList<MyList> process(Scanner input) {
         int source = 0;
         int target= 0;
