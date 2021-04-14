@@ -49,8 +49,8 @@ public class Dijkstras {
                         long end = System.nanoTime();
                         long sortTimeInNano = end - start;
                         double sortTimeIn10thSeconds = (double) sortTimeInNano / Math.pow(10, 8);
-                        System.out.println("Total time, in 10ths of second: " + sortTimeIn10thSeconds);
-                        System.out.println("Number of Comparisons: " + comp);
+                        System.out.println("runtime " + sortTimeIn10thSeconds);
+                        System.out.println("comparisons " + comp);
                         
                     }
                 }
