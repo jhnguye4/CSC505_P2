@@ -13,43 +13,9 @@ We will implement each of these algorithms and do experiments reporting both run
 
 
 ## Specifications
-Programs must run from the command line and read input from standard input in gph format, as described here.
-        c comment line 1
-        ...
-        c comment line k
-        g number_of_nodes number_of_edges
-	  --------------- (not part of the input)
-        OPTIONAL node position info (for conversion to graphml)
-        n v_1 x_1 y_1
-        ...
-        n v_n x_n y_n
-        ------------
-        ALWAYS
-        e source_1 target_1 weight_1
-        ...
-        e source_m target_m weight_m
+Programs must run from the command line and read input from standard input in gph format
 
-    v_1 through v_n are node numbers, typically 1 through n
-    x_i, y_i are x and y coordinates of v_i
-
-Output will have the following format.
-	number_of_nodes
-	d_1_1
-	...
-	d_1_n
-	-1
-	d_2_1
-	...
-	d_2_n
-	-1
-    ...
-	-1
-	d_n_1
-	...
-	d_n_n
-d_i_j is the length of the shortest path from node i to node j
-
-So every line contains a single integer - all weights are integers and there are exactly n2 lines. Lines d_i_i will be 0 and the output matrix will be symmetric, i.e., d_i_j = d_j_i. The -1’s are there to make the output more readable when debugging. There is not one at the very end. Because of the output size you will want to suppress it when experimenting with larger graphs by sending it to /dev/null on the command line.
+Every output line contains a single integer - all weights are integers and there are exactly n**2 lines. Lines d_i_i will be 0 and the output matrix will be symmetric, i.e., d_i_j = d_j_i. The -1’s are there to make the output more readable when debugging. There is not one at the very end. Because of the output size you will want to suppress it when experimenting with larger graphs by sending it to /dev/null on the command line.
 
 Additional output giving statistics about the run should be sent to standard error. Format of the additional output is:
 
