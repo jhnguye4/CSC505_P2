@@ -24,7 +24,7 @@ public class Floydwarshall {
             if (filename.endsWith(".gph")) {
                 input = helper.getInputScanner(filename);
                 if (input != null) {
-                    output = helper.getOutputPrintStream(console, filename);
+                    output = helper.getOutputPrintStream(console, filename + "");
                     if (output != null) {
                         adjacencyList = helper.process(input);
                         init();
@@ -40,6 +40,23 @@ public class Floydwarshall {
             filename = console.next().toLowerCase();
         }
 
+		for(int i = 0; i < n; i++) {
+			for(int j = 0; j < n; j++) {
+				
+				String weight = "INF";
+				
+				if(dist[i][j] != null)
+					weight = dist[i][j] + "";
+				
+				
+				output.println(weight);
+				
+				//System.out.println(String.format("from node %d to node %d, weight: %d", i + 1 ,j + 1,dist[i][j]));
+			}
+			
+			output.println("====");
+		}
+        
 	}
 
 	public void init() {
@@ -104,17 +121,7 @@ public class Floydwarshall {
 	
 	public void result() {
 		
-		for(int i = 0; i < n; i++) {
-			for(int j = 0; j < n; j++) {
-				
-				String weight = "INF";
-				
-				if(dist[i][j] != null)
-					weight = dist[i][j] + "";
-				
-				System.out.println(String.format("from node %d to node %d, weight: %d", i + 1 ,j + 1,dist[i][j]));
-			}
-		}
+		System.err.println("comparisons " + comp);
 		
 	}
 	
