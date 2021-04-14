@@ -24,34 +24,34 @@ public class Dijkstras {
                     if (output != null) {
                         adjacencyList = helper.process(input);
                         
-
                         ListNode currentNode;
                         for(int i =0; i <adjacencyList.size(); i++){
                             
-                            System.out.println("Source: " + (i+1));
+                            //System.out.println("Source: " + (i+1));
                             currentNode = adjacencyList.get(i).getHead();
                             helper.printList(currentNode);
-                        }
-
-                        /*
-                        output.println(adjacencyList.size());
-                        for(int i =0; i <adjacencyList.size(); i++){
-                            distanceList = initializeDistance(adjacencyList.size(),i);
-                            updateDistance(distanceList,i);
-                            currentNode = helper.sort_target(distanceList.getHead());
-                            distanceList.setHead(currentNode);
-                            
-
                             helper.printOutput(output,currentNode);
                         }
-                        */
+                        
+                        long start = System.nanoTime();
+                        for(int i =0; i <adjacencyList.size(); i++){
 
-                        distanceList = initializeDistance(adjacencyList.size(),1);
-                        updateDistance(distanceList,1);
-                        currentNode = helper.sort_target(distanceList.getHead());
-                        distanceList.setHead(currentNode);
-                        helper.printList(currentNode);
+                            distanceList = initializeDistance(adjacencyList.size(),i);
+                            updateDistance(distanceList,i);
+                            
+                            currentNode = helper.sort_target(distanceList.getHead());
+                            distanceList.setHead(currentNode);
+                            helper.printList(distanceList.getHead());
+                            helper.printOutput(output,currentNode);
+                            System.out.println("---");
+                        }
 
+                        long end = System.nanoTime();
+                        long sortTimeInNano = end - start;
+                        double sortTimeIn10thSeconds = (double) sortTimeInNano / Math.pow(10, 8);
+                        System.out.println("Total time, in 10ths of second: " + sortTimeIn10thSeconds);
+                        System.out.println("Number of Comparisons: " + comp);
+                        
                     }
                 }
             } else {
@@ -114,7 +114,7 @@ public class Dijkstras {
         ListNode minimumNode = adjacencyList.get(start).getHead();
         ListNode currentNode = adjacencyList.get(start).getHead();
 
-        helper.printList(distanceList.getHead());
+       // helper.printList(distanceList.getHead());
 
         for(int i = 0; i < adjacencyList.size(); i++){
             if (adjacencyList.get(i).getSize() < 1){
@@ -124,7 +124,7 @@ public class Dijkstras {
             while (currentNode != null){
                 ListNode node = helper.get(distanceList.getHead(), currentNode);
 
-                System.out.println(currentNode.target);
+                //System.out.println(currentNode.target);
                 
                 if (!node.found){
                     if (node.weight == Integer.MAX_VALUE){
@@ -139,8 +139,8 @@ public class Dijkstras {
                 currentNode = currentNode.next;
 
 
-                System.out.println("Distance List:");
-                helper.printList(distanceList.getHead());
+                //System.out.println("Distance List:");
+                //helper.printList(distanceList.getHead());
                 System.out.println("");
 
             }
