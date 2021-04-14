@@ -23,10 +23,35 @@ public class Dijkstras {
                     output = helper.getOutputPrintStream(console, filename);
                     if (output != null) {
                         adjacencyList = helper.process(input);
-                        distanceList = initializeDistance(adjacencyList.size());
-                        updateDistance(distanceList,0);
-                        helper.printList(distanceList.getHead());
-                        System.out.println();
+                        
+
+                        ListNode currentNode;
+                        for(int i =0; i <adjacencyList.size(); i++){
+                            
+                            System.out.println("Source: " + (i+1));
+                            currentNode = adjacencyList.get(i).getHead();
+                            helper.printList(currentNode);
+                        }
+
+                        /*
+                        output.println(adjacencyList.size());
+                        for(int i =0; i <adjacencyList.size(); i++){
+                            distanceList = initializeDistance(adjacencyList.size(),i);
+                            updateDistance(distanceList,i);
+                            currentNode = helper.sort_target(distanceList.getHead());
+                            distanceList.setHead(currentNode);
+                            
+
+                            helper.printOutput(output,currentNode);
+                        }
+                        */
+
+                        distanceList = initializeDistance(adjacencyList.size(),1);
+                        updateDistance(distanceList,1);
+                        currentNode = helper.sort_target(distanceList.getHead());
+                        distanceList.setHead(currentNode);
+                        helper.printList(currentNode);
+
                     }
                 }
             } else {
@@ -47,12 +72,21 @@ public class Dijkstras {
         new Dijkstras();
     }  
 
-    public MyList initializeDistance(int num){
+    public MyList initializeDistance(int num, int start){
         MyList list = new MyList();
         int weight = Integer.MAX_VALUE;
+        Utils helper = new Utils();
         for(int i = num ; i > 0; i--){
+            if (i == start+1) {
+                list.addFront(i,0);
+                list.getHead().found = true;
+                continue;
+            }
             list.addFront(i,weight);
         }
+        System.out.println();
+        
+
         return list;
     }
 
@@ -61,7 +95,8 @@ public class Dijkstras {
         Utils helper = new Utils();
         currentNode = helper.sort(currentNode);
         distanceList.setHead(currentNode);
-        ListNode node=null;
+        ListNode node = null;
+
         while(currentNode != null ){
             if(currentNode.found == false){
                 currentNode.found = true;
@@ -79,6 +114,8 @@ public class Dijkstras {
         ListNode minimumNode = adjacencyList.get(start).getHead();
         ListNode currentNode = adjacencyList.get(start).getHead();
 
+        helper.printList(distanceList.getHead());
+
         for(int i = 0; i < adjacencyList.size(); i++){
             if (adjacencyList.get(i).getSize() < 1){
                 continue;
@@ -86,6 +123,8 @@ public class Dijkstras {
             
             while (currentNode != null){
                 ListNode node = helper.get(distanceList.getHead(), currentNode);
+
+                System.out.println(currentNode.target);
                 
                 if (!node.found){
                     if (node.weight == Integer.MAX_VALUE){
@@ -94,14 +133,25 @@ public class Dijkstras {
                     }
                     else {
                         node.weight = Math.min(node.weight, minimum + currentNode.weight);
+                        comp++;
                     }
                 }
                 currentNode = currentNode.next;
-                comp++;
+
+
+                System.out.println("Distance List:");
+                helper.printList(distanceList.getHead());
+                System.out.println("");
+
             }
+
             minimumNode = getMinimum();
-            minimum = minimumNode.weight;
-            currentNode = adjacencyList.get(minimumNode.target-1).getHead();
+            comp++;
+            
+            if (minimumNode != null){
+                minimum = minimumNode.weight;
+                currentNode = adjacencyList.get(minimumNode.target-1).getHead();
+            }
         }
     }
 }

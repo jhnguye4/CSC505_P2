@@ -21,12 +21,67 @@ public class Utils{
     public ListNode merge(ListNode list1, ListNode list2) {
         ListNode dummy = new ListNode(0,0);
         ListNode tmpList = dummy;
+        //int l1 = 0;
+        //int l2 = 0;
         // Loop is used to point tmpList to the smallest element between the two lists
         // until one of the lists have reached its end
+        //if (s.equals("w")){
+          //  l1 = list1.weight;
+           // l2 = list2.weight;
+        //}
+        //else if (s.equals("i")){
+          //  l1 = list1.target;
+            //l2 = list2.target;
+        //}
+
         while (list1 != null && list2 != null) {
             // Value in list1 is smaller than value of list two. tmpList points to value in
             // list1 and pointer in list1 is moved forward
             if (list1.weight < list2.weight) {
+                tmpList.next = list1;
+                list1 = list1.next;
+                
+            } else {
+                // Value in list2 is smaller than value of list one. tmpList points to value in
+                // list1 and pointer in list1 is moved forward
+                tmpList.next = list2;
+                list2 = list2.next;
+            }
+            // moves the pointer of tmpList forward
+            tmpList = tmpList.next;
+        }
+        // For odd number of nodes in list1 and list2, if list1 or list2 have not
+        // reached end then it will enter if statement to point to last element.
+        if (list1 != null) {
+            tmpList.next = list1;
+        }
+        if (list2 != null) {
+            tmpList.next = list2;
+        }
+        return dummy.next;
+
+    }
+
+    public ListNode merge_target(ListNode list1, ListNode list2) {
+        ListNode dummy = new ListNode(0,0);
+        ListNode tmpList = dummy;
+        //int l1 = 0;
+        //int l2 = 0;
+        // Loop is used to point tmpList to the smallest element between the two lists
+        // until one of the lists have reached its end
+        //if (s.equals("w")){
+          //  l1 = list1.weight;
+           // l2 = list2.weight;
+        //}
+        //else if (s.equals("i")){
+          //  l1 = list1.target;
+            //l2 = list2.target;
+        //}
+
+        while (list1 != null && list2 != null) {
+            // Value in list1 is smaller than value of list two. tmpList points to value in
+            // list1 and pointer in list1 is moved forward
+            if (list1.target < list2.target) {
                 tmpList.next = list1;
                 list1 = list1.next;
                 
@@ -83,6 +138,25 @@ public class Utils{
         return merge(list1, list2);
     } 
 
+    public ListNode sort_target(ListNode head) {
+        // Checks if the node is null or there is no elements next to the single element
+        // in the list
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        // Gets the middle element of the list
+        ListNode mid = middle(head);
+        ListNode middleHead = mid.next;
+        // Sets node next to middle null so that when it recursively calls it will break
+        // list into halves till there is one element
+        mid.next = null;
+        ListNode list1 = sort(head);
+        ListNode list2 = sort(middleHead);
+
+        return merge_target(list1, list2);
+    } 
+
 
     // Helper function that would print out the list
     public void printList(ListNode node) {
@@ -95,6 +169,19 @@ public class Utils{
             // Go to next node
             currentNode = currentNode.next;
         }
+
+    }
+
+    public void printOutput(PrintStream file, ListNode node){
+        ListNode currentNode = node;
+
+        while (currentNode != null) {
+            // Print the data at current node
+            file.println(currentNode.weight);
+            // Go to next node
+            currentNode = currentNode.next;
+        }
+        file.println(-1);
 
     }
 
@@ -158,6 +245,7 @@ public class Utils{
                 target = lineScan.nextInt();
                 weight = lineScan.nextInt();
                 adjacencyList.get(source-1).addFront(target,weight);
+                adjacencyList.get(target-1).addFront(source,weight);
             }
             lineScan.close();
         
