@@ -30,7 +30,7 @@ public class Dijkstras {
                             //System.out.println("Source: " + (i+1));
                             currentNode = adjacencyList.get(i).getHead();
                             helper.printList(currentNode);
-                            helper.printOutput(output,currentNode);
+                           // helper.printOutput(output,currentNode);
                         }
                         
                         long start = System.nanoTime();
