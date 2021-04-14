@@ -1,5 +1,3 @@
-import java.util.*;
-import java.io.*;
 
 public class MyList {
     
@@ -123,6 +121,22 @@ public class MyList {
             next.prev = previous;
         }
         size--;      
+    }
+    
+    public ListNode search(int id) {
+    	if(size == 0)
+    		return null;
+    	
+    	ListNode itr = this.head;
+    	
+    	while(itr != null) {
+    		if (itr.target == id)
+    			return itr;
+    		else
+    			itr = itr.next;
+    	}
+    	
+    	return null;
     }
 }
 
