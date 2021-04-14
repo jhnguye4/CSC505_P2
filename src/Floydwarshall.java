@@ -1,27 +1,59 @@
+import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Scanner;
 
 public class Floydwarshall {
 
 	int n;
+	int comp = 0;
 	ArrayList<MyList> adjacencyList;
-	Integer[][] shortestPath;
 	Integer[][] dist;
 
 	public Floydwarshall() {
 
 		// TODO: readdata to the adjacencyList;
 
+        Scanner console = new Scanner(System.in);
+        System.out.print("Enter a filename or Q to quit: ");
+        String filename = console.next().toLowerCase();
+
+        Scanner input = null;
+        PrintStream output = null;
+        Utils helper = new Utils();
+        while (!(filename.equals("q"))) {
+            if (filename.endsWith(".gph")) {
+                input = helper.getInputScanner(filename);
+                if (input != null) {
+                    output = helper.getOutputPrintStream(console, filename);
+                    if (output != null) {
+                        adjacencyList = helper.process(input);
+                        init();
+                        run();
+                        result();
+                    }
+                }
+            } else {
+                System.out.println("Invalid filename");
+            }
+            
+            System.out.print("Enter a filename or Q to quit: ");
+            filename = console.next().toLowerCase();
+        }
+
 	}
 
 	public void init() {
+		
+		n = adjacencyList.size();
+		
+		dist = new Integer[n][n];
+		
 		// Initialize the distance map.
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 
-				ListNode tar = adjacencyList.get(i).search(j);
-
+				ListNode tar = adjacencyList.get(i).search(j + 1);
+				
 				if (i == j) {
 					dist[i][j] = 0;
 				} else if (tar != null) {
@@ -32,56 +64,39 @@ public class Floydwarshall {
 
 			}
 		}
-
-		// Initialize the shortest path map;
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < n; j++) {
-
-				if (i != j && dist[i][j] != null)
-					shortestPath[i][j] = i;
-
-			}
-		}
 	}
 
 	public void run() {
 
 		// Run algorithm.
 		for (int k = 0; k < n; k++) {
-
-			Integer[][] dist_k = new Integer[n][n];
-			Integer[][] shortestPath_k = new Integer[n][n];
-
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
 
 					if (dist[i][k] == null || dist[k][j] == null) {
 
-						dist_k[i][j] = dist[i][j];
-						shortestPath_k[i][j] = shortestPath[i][j];
+						dist[i][j] = dist[i][j];
+						comp++;
 
 					} else if (dist[i][j] == null) {
 
-						dist_k[i][j] = dist[i][k] + dist[k][j];
-						shortestPath_k[i][j] = shortestPath[k][j];
+						dist[i][j] = dist[i][k] + dist[k][j];
+						comp++;
 
 					} else if (dist[i][j] <= dist[i][k] + dist[k][j]) {
 
-						dist_k[i][j] = dist[i][j];
-						shortestPath_k[i][j] = shortestPath[i][j];
+						dist[i][j] = dist[i][j];
+						comp++;
 
 					} else {
 
-						dist_k[i][j] = dist[i][k] + dist[k][j];
-						shortestPath_k[i][j] = shortestPath[k][j];
+						dist[i][j] = dist[i][k] + dist[k][j];
+						comp++;
 
 					}
 
 				}
 			}
-
-			dist = dist_k;
-			shortestPath = shortestPath_k;
 
 		}
 
@@ -91,22 +106,19 @@ public class Floydwarshall {
 		
 		for(int i = 0; i < n; i++) {
 			for(int j = 0; j < n; j++) {
-				shortestPathToReadable(i,j);
+				
+				String weight = "INF";
+				
+				if(dist[i][j] != null)
+					weight = dist[i][j] + "";
+				
+				System.out.println(String.format("from node %d to node %d, weight: %d", i + 1 ,j + 1,dist[i][j]));
 			}
 		}
 		
 	}
-
-	private void shortestPathToReadable(int start, int end) {
-		
-		if(end == start)
-			return;
-		
-		Integer pred = shortestPath[start][end];
-		
-		//ToDo something
-		
-		shortestPathToReadable(start,pred);
-	}
 	
+    public static void main(String[] args) {
+        new Floydwarshall();
+    } 
 }

@@ -158,6 +158,7 @@ public class Utils{
                 target = lineScan.nextInt();
                 weight = lineScan.nextInt();
                 adjacencyList.get(source-1).addFront(target,weight);
+                adjacencyList.get(target-1).addFront(source,weight);
             }
             lineScan.close();
         

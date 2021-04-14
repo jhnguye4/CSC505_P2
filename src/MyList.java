@@ -129,7 +129,7 @@ public class MyList {
     	
     	ListNode itr = this.head;
     	
-    	while(itr.next != null) {
+    	while(itr != null) {
     		if (itr.target == id)
     			return itr;
     		else
