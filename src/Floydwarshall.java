@@ -84,7 +84,7 @@ public class Floydwarshall {
 	}
 
 	public void run() {
-
+		long start = System.nanoTime();
 		// Run algorithm.
 		for (int k = 0; k < n; k++) {
 			for (int i = 0; i < n; i++) {
@@ -116,12 +116,16 @@ public class Floydwarshall {
 			}
 
 		}
+		long end = System.nanoTime();
+		long sortTimeInNano = end - start;
+		double sortTimeIn10thSeconds = (double) sortTimeInNano / Math.pow(10, 8);
+		System.out.println("RUN_TIME " + sortTimeIn10thSeconds);
 
 	}
 	
 	public void result() {
 		
-		System.err.println("comparisons " + comp);
+		System.err.println("COMPARISONS " + comp);
 		
 	}
 	
