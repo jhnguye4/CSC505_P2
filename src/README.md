@@ -26,7 +26,7 @@ The runtime should not include the time it takes to read the input or produce th
 
 
 ## Running Program
-Clone repository and maintain file structure. Run the `bash compile.sh` to compile everything. 
+Clone repository and maintain file structure. Run `bash compile.sh` to compile everything. 
 
 In order to run Dijkstras with input files:
 
