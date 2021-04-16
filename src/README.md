@@ -26,20 +26,18 @@ The runtime should not include the time it takes to read the input or produce th
 
 
 ## Running Program
-Clone repository and maintain file structure.
+Clone repository and maintain file structure. Run the `bash compile.sh` to compile everything. 
 
 In order to run Dijkstras with input files:
 
-* javac Dijkstras.java 
-* java Dijkstras
+* `bash run_apsp.sh d` 
 * Program will prompt "Enter a filename or Q to quit:"
 * Type in file name
 * Example: ./inputs/dual_06_09.gph
 
 In order to run Floyd Warshall with input files:
 
-* javac Floydwarshall.java 
-* java Floydwarshall
+* `bash run_apsp.sh fw`
 * Program will prompt "Enter a filename or Q to quit:"
 * Type in file name
 * Example: ./inputs/dual_06_09.gph
