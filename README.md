@@ -1,4 +1,4 @@
-# CSC505_P1
+# CSC505_P2
 CSC 505 Project 2: All-Pairs Shortest Paths
 
 ## Learning Objective
