@@ -11,8 +11,6 @@ public class Floydwarshall {
 
 	public Floydwarshall() {
 
-		// TODO: readdata to the adjacencyList;
-
         Scanner console = new Scanner(System.in);
         System.out.print("Enter a filename or Q to quit: ");
         String filename = console.next().toLowerCase();
@@ -26,6 +24,7 @@ public class Floydwarshall {
                 if (input != null) {
                     output = helper.getOutputPrintStream(console, filename + "");
                     if (output != null) {
+                    	//read adjacencylist from input.
                         adjacencyList = helper.process(input);
                         init();
                         run();
@@ -48,10 +47,9 @@ public class Floydwarshall {
 				if(dist[i][j] != null)
 					weight = dist[i][j] + "";
 				
-				
+				//write result to output file.
 				output.println(weight);
 				
-				//System.out.println(String.format("from node %d to node %d, weight: %d", i + 1 ,j + 1,dist[i][j]));
 			}
 			
 			output.println("====");
@@ -61,11 +59,13 @@ public class Floydwarshall {
 
 	public void init() {
 		
+		//Get the number of vertexs.
 		n = adjacencyList.size();
 		
+		//create a distance matrix with size of N x N
 		dist = new Integer[n][n];
 		
-		// Initialize the distance map.
+		// Load the D^0 of the distance map using adjacencyList.
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
 
@@ -85,13 +85,27 @@ public class Floydwarshall {
 
 	public void run() {
 		long start = System.nanoTime();
-		// Run algorithm.
+		
+		/**
+		 * Test all k value and find if that any path from 
+		 * i to k + any path from k to j produces a better cost path.
+		 */
 		for (int k = 0; k < n; k++) {
+			
+			//Test it for all starting-ending pair in the distance matrix.
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n; j++) {
 
+					
+					/**
+					 * The null value here determines infinity, inifity + any should result in inifity,
+					 * therefore, the distance matrix will not be updated. 
+					 * If the original path is infinity, then replace it with what ever the new path is. 
+					 * This will keep the distance matrix unchange if we replacing an infinity with an infinity.
+					 * If no null value present, then only update the matrix if there is a better cost path detected.
+					 */
 					if (dist[i][k] == null || dist[k][j] == null) {
-
+						
 						dist[i][j] = dist[i][j];
 						comp++;
 
