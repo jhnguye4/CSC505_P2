@@ -48,8 +48,8 @@ public class Dijkstras {
                     long end = System.nanoTime();
                     //Calculating the runtime of this algorithm and the number of comparisons it would take.
                     long sortTimeInNano = end - start;
-                    double sortTimeIn10thSeconds = (double) sortTimeInNano / Math.pow(10, 8);
-                    System.out.println("RUN_TIME " + sortTimeIn10thSeconds);
+                    double sortTimeInSeconds = (double) sortTimeInNano / Math.pow(10, 7);
+                    System.out.printf("RUN_TIME %.1f\n", sortTimeInSeconds);
                     System.out.println("COMPARISONS " + comp);
                     comp =0;
                     

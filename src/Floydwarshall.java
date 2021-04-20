@@ -132,8 +132,8 @@ public class Floydwarshall {
 		}
 		long end = System.nanoTime();
 		long sortTimeInNano = end - start;
-		double sortTimeIn10thSeconds = (double) sortTimeInNano / Math.pow(10, 8);
-		System.out.println("RUN_TIME " + sortTimeIn10thSeconds);
+		double sortTimeInSeconds = (double) sortTimeInNano / Math.pow(10, 7);
+        System.out.printf("RUN_TIME %.1f\n", sortTimeInSeconds);
 
 	}
 	
