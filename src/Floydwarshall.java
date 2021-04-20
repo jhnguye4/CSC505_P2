@@ -9,35 +9,30 @@ public class Floydwarshall {
 	ArrayList<MyList> adjacencyList;
 	Integer[][] dist;
 
-	public Floydwarshall() {
+	public Floydwarshall(String filename) {
 
-        Scanner console = new Scanner(System.in);
-        System.out.print("Enter a filename or Q to quit: ");
-        String filename = console.next().toLowerCase();
-
+		Scanner console = new Scanner(System.in);
         Scanner input = null;
         PrintStream output = null;
         Utils helper = new Utils();
-        while (!(filename.equals("q"))) {
-            if (filename.endsWith(".gph")) {
-                input = helper.getInputScanner(filename);
-                if (input != null) {
-                    output = helper.getOutputPrintStream(console, filename + "");
-                    if (output != null) {
-                    	//read adjacencylist from input.
-                        adjacencyList = helper.process(input);
-                        init();
-                        run();
-                        result();
-                    }
+        if (filename.endsWith(".gph")) {
+            input = helper.getInputScanner(filename);
+            if (input != null) {
+                output = helper.getOutputPrintStream(console, filename + "");
+                if (output != null) {
+                	//read adjacencylist from input.
+                    adjacencyList = helper.process(input);
+                    init();
+                    run();
+                    result();
                 }
-            } else {
-                System.out.println("Invalid filename");
             }
-            
-            System.out.print("Enter a filename or Q to quit: ");
-            filename = console.next().toLowerCase();
+        } else {
+            System.out.println("Invalid filename");
         }
+            
+            
+        
 
 		for(int i = 0; i < n; i++) {
 			for(int j = 0; j < n; j++) {
@@ -59,7 +54,7 @@ public class Floydwarshall {
 
 	public void init() {
 		
-		//Get the number of vertexs.
+		//Get the number of vertices.
 		n = adjacencyList.size();
 		
 		//create a distance matrix with size of N x N
@@ -98,10 +93,10 @@ public class Floydwarshall {
 
 					
 					/**
-					 * The null value here determines infinity, inifity + any should result in inifity,
+					 * The null value here determines infinity, infinity + any should result in infinity,
 					 * therefore, the distance matrix will not be updated. 
 					 * If the original path is infinity, then replace it with what ever the new path is. 
-					 * This will keep the distance matrix unchange if we replacing an infinity with an infinity.
+					 * This will keep the distance matrix unchanged if we replacing an infinity with an infinity.
 					 * If no null value present, then only update the matrix if there is a better cost path detected.
 					 */
 					if (dist[i][k] == null || dist[k][j] == null) {
@@ -144,6 +139,6 @@ public class Floydwarshall {
 	}
 	
     public static void main(String[] args) {
-        new Floydwarshall();
+        new Floydwarshall(args[0]);
     } 
 }

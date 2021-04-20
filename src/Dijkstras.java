@@ -7,69 +7,70 @@ public class Dijkstras {
     int comp = 0;
     ArrayList<MyList> adjacencyList;
 
-    public Dijkstras(){
+    public Dijkstras(String filename){
         Scanner console = new Scanner(System.in);
-        System.out.print("Enter a filename or Q to quit: ");
-        String filename = console.next().toLowerCase();
+//        System.out.print("Enter a filename or Q to quit: ");
+//        String filename = console.next().toLowerCase();
 
         Scanner input = null;
         PrintStream output = null;
         Utils helper = new Utils();
-        while (!(filename.equals("q"))) {
-            if (filename.endsWith(".gph")) {
-                input = helper.getInputScanner(filename);
-                if (input != null) {
-                    output = helper.getOutputPrintStream(console, filename);
-                    if (output != null) {
-                        //Calls the process function from the Utils class which will take the input file and create the adjacency list.
-                        //The list will be an ArrayList of linked list, with the linked list being a class we created called MyList  
-                        adjacencyList = helper.process(input);
-                        
-                        ListNode currentNode;
-                        long start = System.nanoTime();
-                        //Prints the number of vertices of the file at the top of the output file.
-                        output.println(adjacencyList.size());
-                        //Loop is used to change the starting node of each iteration. This loop will find the 
-                        //shortest path for every node and output it to a file. In order to read the output file
-                        //the top number is the number of vertices in the graph, the number that starts with 0 is the starting node 
-                        //and all the other numbers are the distance from that starting node. The -1 is used to separate the distances of each starting node.
-                        for(int i =0; i <adjacencyList.size(); i++){
+        if (filename.endsWith(".gph")) {
+            input = helper.getInputScanner(filename);
+            if (input != null) {
+                output = helper.getOutputPrintStream(console, filename);
+                if (output != null) {
+                    //Calls the process function from the Utils class which will take the input file and create the adjacency list.
+                    //The list will be an ArrayList of linked list, with the linked list being a class we created called MyList  
+                    adjacencyList = helper.process(input);
+                    
+                    ListNode currentNode;
+                    long start = System.nanoTime();
+                    //Prints the number of vertices of the file at the top of the output file.
+                    output.println(adjacencyList.size());
+                    //Loop is used to change the starting node of each iteration. This loop will find the 
+                    //shortest path for every node and output it to a file. In order to read the output file
+                    //the top number is the number of vertices in the graph, the number that starts with 0 is the starting node 
+                    //and all the other numbers are the distance from that starting node. The -1 is used to separate the distances of each starting node.
+                    for(int i =0; i <adjacencyList.size(); i++){
 
-                            distanceList = initializeDistance(adjacencyList.size(),i);
-                            updateDistance(distanceList,i);
-                            //Since our distance list is sorted by weight after updateDistance. The method below will sort it by node in order to print into
-                            //output file.
-                            currentNode = helper.sort_target(distanceList.getHead());
-                            distanceList.setHead(currentNode);
-                            helper.printOutput(output,currentNode);
-                            if(i < adjacencyList.size()-1){
-                                output.println(-1);
-                            }
+                        distanceList = initializeDistance(adjacencyList.size(),i);
+                        updateDistance(distanceList,i);
+                        //Since our distance list is sorted by weight after updateDistance. The method below will sort it by node in order to print into
+                        //output file.
+                        currentNode = helper.sort_target(distanceList.getHead());
+                        distanceList.setHead(currentNode);
+                        helper.printOutput(output,currentNode);
+                        if(i < adjacencyList.size()-1){
+                            output.println(-1);
                         }
-                        long end = System.nanoTime();
-                        //Calculating the runtime of this algorithm and the number of comparisons it would take.
-                        long sortTimeInNano = end - start;
-                        double sortTimeIn10thSeconds = (double) sortTimeInNano / Math.pow(10, 8);
-                        System.out.println("RUN_TIME " + sortTimeIn10thSeconds);
-                        System.out.println("COMPARISONS " + comp);
-                        comp =0;
-                        
                     }
+                    long end = System.nanoTime();
+                    //Calculating the runtime of this algorithm and the number of comparisons it would take.
+                    long sortTimeInNano = end - start;
+                    double sortTimeIn10thSeconds = (double) sortTimeInNano / Math.pow(10, 8);
+                    System.out.println("RUN_TIME " + sortTimeIn10thSeconds);
+                    System.out.println("COMPARISONS " + comp);
+                    comp =0;
+                    
                 }
-            } else {
-                System.out.println("Invalid filename");
             }
-            System.out.print("Enter a filename or Q to quit: ");
-            filename = console.next().toLowerCase();
+        } 
+        else {
+            System.out.println("Invalid filename");
         }
     }
+
+
+
     
     public static void main(String[] args) {
-        new Dijkstras();
+    	
+        new Dijkstras(args[0]);
     }  
 
     /**
-     * Method is used to initialize the starting vertice to have a distance of 0 and all the other vertices to have a distance of infinity.
+     * Method is used to initialize the starting vertex to have a distance of 0 and all the other vertices to have a distance of infinity.
      * It takes in a num for number of vertices the graph has and a start which is the node that the shortest distances will be found for.
      * @param num
      * @param start
