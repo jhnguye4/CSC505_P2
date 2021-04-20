@@ -21,16 +21,16 @@ public class Dijkstras {
                 output = helper.getOutputPrintStream(console, filename);
                 if (output != null) {
                     //Calls the process function from the Utils class which will take the input file and create the adjacency list.
-                    //The list will be an ArrayList of linked list, with the linked list being a class we created called MyList  
+                    //The list will be an ArrayList of linked list, with the linked list being a class we created called MyList
                     adjacencyList = helper.process(input);
-                    
+
                     ListNode currentNode;
                     long start = System.nanoTime();
                     //Prints the number of vertices of the file at the top of the output file.
                     output.println(adjacencyList.size());
-                    //Loop is used to change the starting node of each iteration. This loop will find the 
+                    //Loop is used to change the starting node of each iteration. This loop will find the
                     //shortest path for every node and output it to a file. In order to read the output file
-                    //the top number is the number of vertices in the graph, the number that starts with 0 is the starting node 
+                    //the top number is the number of vertices in the graph, the number that starts with 0 is the starting node
                     //and all the other numbers are the distance from that starting node. The -1 is used to separate the distances of each starting node.
                     for(int i =0; i <adjacencyList.size(); i++){
 
@@ -48,14 +48,14 @@ public class Dijkstras {
                     long end = System.nanoTime();
                     //Calculating the runtime of this algorithm and the number of comparisons it would take.
                     long sortTimeInNano = end - start;
-                    double sortTimeIn10thSeconds = (double) sortTimeInNano / Math.pow(10, 8);
-                    System.out.println("RUN_TIME " + sortTimeIn10thSeconds);
+                    double sortTimeInSeconds = (double) sortTimeInNano / Math.pow(10, 9);
+                    System.out.printf("RUN_TIME %.1f\n", sortTimeInSeconds);
                     System.out.println("COMPARISONS " + comp);
                     comp =0;
-                    
+
                 }
             }
-        } 
+        }
         else {
             System.out.println("Invalid filename");
         }
@@ -63,11 +63,11 @@ public class Dijkstras {
 
 
 
-    
+
     public static void main(String[] args) {
-    	
+
         new Dijkstras(args[0]);
-    }  
+    }
 
     /**
      * Method is used to initialize the starting vertex to have a distance of 0 and all the other vertices to have a distance of infinity.
@@ -119,9 +119,9 @@ public class Dijkstras {
     }
     /**
      * Method is use to update the distance list to have all the shortest paths from the starting node to all other nodes in the graph.
-     * It does this by finding the adjacent nodes of the starting node and then filling in the distance list. If the node in the distance list is infinity then 
+     * It does this by finding the adjacent nodes of the starting node and then filling in the distance list. If the node in the distance list is infinity then
      * it will add the current minimum and the weight of the adjacent node as the distance in the list. If it is not infinity, it will compare the distance already
-     * in the list to the minimum distance plus the distance to the adjacent node, it will then take the minimum number of those two distances and update the 
+     * in the list to the minimum distance plus the distance to the adjacent node, it will then take the minimum number of those two distances and update the
      * distance list at that adjacent node. It will iterate all nodes of the graph till the list has all the minimum distances. Afterwards the distance list will
      * be sorted by node in Dijkstras() and printed to output.
      * @param distanceList
@@ -144,23 +144,23 @@ public class Dijkstras {
             if (adjacencyList.get(i).getSize() < 1){
                 continue;
             }
-            
+
             //Go through all the adjacency nodes
             while (currentNode != null){
                 //grab the node in distance list that is the same adjacency node
                 //example:
                 //if adjacency node is 2 then get node 2 in the distance list so that its distance may potentially be updated
                 ListNode node = helper.get(distanceList.getHead(), currentNode);
-                
+
                 //only update the distance list of the node if it is not found(false)
                 if (!node.found){
                     //if the node is infinity then make the minimum distance the distance of the adjacency node plus the minimum distance
                     if (node.weight == Integer.MAX_VALUE){
                         node.weight = currentNode.weight + minimum;
-                        
+
                     }
                     else {
-                        //if node is any other value then take the minimum distance of node in distance list and adjacency node distance + minimum  
+                        //if node is any other value then take the minimum distance of node in distance list and adjacency node distance + minimum
                         node.weight = Math.min(node.weight, minimum + currentNode.weight);
                         comp++;
                     }
