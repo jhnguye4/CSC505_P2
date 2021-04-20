@@ -76,6 +76,6 @@ A file will be created that outputs all shortest path values of each node. With 
 ## Collaborators
 
 * Jonathan Nguyen
-* Justin Kirscher
+* Justin Kirschner
 * Yi Qiu
 * Rahul Ramakrishnan
