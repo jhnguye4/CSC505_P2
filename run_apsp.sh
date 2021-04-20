@@ -2,7 +2,9 @@
 # d - Dijkstra's algorithm
 # fw - Floyd-Warshall algorithm
 
+# storing command line arguments
 algo=$1
+input_file=$2
 
 
 # Set class path 
@@ -16,11 +18,11 @@ fi
 if [[ $algo = "d" ]];
 then
 	echo "Running Dijkstra's Algorithm"
-	java -cp $class_path Dijkstras
+	java -cp $class_path Dijkstras $input_file
 elif [[ $algo = "fw" ]];
 then
 	echo "Running Floyd-Warshall Algorithm"
-	java -cp $class_path Floydwarshall
+	java -cp $class_path Floydwarshall $input_file
 else
 	echo "Invalid argument"
 	echo "Argument list: "
