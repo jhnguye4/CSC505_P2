@@ -73,7 +73,7 @@ In order to run Floyd Warshall with input files:
 A file will be created that outputs all shortest path values of each node. With the correct outputs being in the outputs folder to check during testing.
 
 
-## Team Members
+## Collaborators
 
 * Jonathan Nguyen
 * Justin Kirscher
